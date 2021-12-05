@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	data "github.com/nadoo/glider/cmd/data"
+	"github.com/laof/request"
 	"github.com/nadoo/glider/cmd/node"
 )
 
@@ -26,38 +26,39 @@ func getDirectory() string {
 
 func Create() bool {
 
-	str := data.Get()
+	str := request.Request()
 
 	if str == "" {
 		fmt.Println("please check your network")
 		return false
 	}
 
-	var nodes []string
-	old := strings.Split(str, "\n\n")
+	// var nodes []string
+
+	nodes := strings.Split(str, "\n")
 
 	var ss, ssr int
 
-	for _, v := range old {
+	// for _, v := range old {
 
-		var ty string = ""
-		if strings.HasPrefix(v, "ssr://") {
-			ssr++
-			ty = "SSR"
+	// 	var ty string = ""
+	// 	if strings.HasPrefix(v, "ssr://") {
+	// 		ssr++
+	// 		ty = "SSR"
 
-		} else if strings.HasPrefix(v, "ss://") {
-			ss++
-			ty = "SS"
-		}
+	// 	} else if strings.HasPrefix(v, "ss://") {
+	// 		ss++
+	// 		ty = "SS"
+	// 	}
 
-		if ty != "" {
-			nw := strings.TrimSpace(v)
-			nw = strings.Replace(nw, "\n", "", -1)
-			nodes = append(nodes, nw)
-			fmt.Printf("Node %d : %s\n", len(nodes), ty)
+	// 	if ty != "" {
+	// 		nw := strings.TrimSpace(v)
+	// 		nw = strings.Replace(nw, "\n", "", -1)
+	// 		nodes = append(nodes, nw)
+	// 		fmt.Printf("Node %d : %s\n", len(nodes), ty)
 
-		}
-	}
+	// 	}
+	// }
 
 	if ss == ssr && ssr == 0 {
 		fmt.Println("empty node")

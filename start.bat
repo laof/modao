@@ -1,1 +1,0 @@
-.\glider -config glider.conf
