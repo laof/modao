@@ -99,14 +99,14 @@ func Create() bool {
 	port := "1080"
 	text := []string{
 		"# " + (time.Unix(time.Now().Unix(), 0).Format("2006-01-02 15:04:05")),
-		"listen=socks5://:" + port,
+		"listen=:" + port,
 		"forward=" + txt,
 	}
 
 	conf := strings.Join(text, "\n")
 
 	if write(conf) {
-		fmt.Println("listen socks5 " + port)
+		fmt.Println("start the server " + port)
 		return true
 	}
 
