@@ -33,34 +33,27 @@ func Create() bool {
 		return false
 	}
 
-	// var nodes []string
-
 	nodes := strings.Split(str, "\n")
 
-	var ss, ssr int
+	var list []string
+	for _, v := range nodes {
 
-	// for _, v := range old {
+		var ty string = ""
+		if strings.HasPrefix(v, "ssr://") {
+			ty = "SSR"
 
-	// 	var ty string = ""
-	// 	if strings.HasPrefix(v, "ssr://") {
-	// 		ssr++
-	// 		ty = "SSR"
+		} else if strings.HasPrefix(v, "ss://") {
+			ty = "SS"
+		}
 
-	// 	} else if strings.HasPrefix(v, "ss://") {
-	// 		ss++
-	// 		ty = "SS"
-	// 	}
+		if ty != "" {
+			nw := strings.TrimSpace(v)
+			list = append(list, nw)
+			fmt.Printf("Node %d : %s\n", len(list), ty)
+		}
+	}
 
-	// 	if ty != "" {
-	// 		nw := strings.TrimSpace(v)
-	// 		nw = strings.Replace(nw, "\n", "", -1)
-	// 		nodes = append(nodes, nw)
-	// 		fmt.Printf("Node %d : %s\n", len(nodes), ty)
-
-	// 	}
-	// }
-
-	if ss == ssr && ssr == 0 {
+	if len(list) == 0 {
 		fmt.Println("empty node")
 		return false
 	}
