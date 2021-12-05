@@ -106,7 +106,7 @@ func Create() bool {
 	conf := strings.Join(text, "\n")
 
 	if write(conf) {
-		fmt.Println("listen socks5:" + port)
+		fmt.Println("listen socks5 " + port)
 		return true
 	}
 

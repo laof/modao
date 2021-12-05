@@ -8,7 +8,7 @@ require (
 	github.com/dgryski/go-idea v0.0.0-20170306091226-d2fb45a411fb
 	github.com/dgryski/go-rc2 v0.0.0-20150621095337-8a9021637152
 	github.com/insomniacslk/dhcp v0.0.0-20210827173440-b95caade3eac
-	github.com/laof/request v0.0.0-20211205041439-1640b99683a4
+	github.com/laof/request v0.0.0-20211205064616-8f55a41107f5
 	github.com/nadoo/conflag v0.2.3
 	github.com/nadoo/ipset v0.3.0
 	github.com/pkg/errors v0.9.1
@@ -38,7 +38,7 @@ require (
 	github.com/templexxx/xorsimd v0.4.1 // indirect
 	github.com/tjfoc/gmsm v1.4.1 // indirect
 	github.com/u-root/uio v0.0.0-20210528151154-e40b768296a7 // indirect
-	golang.org/x/net v0.0.0-20211203184738-4852103109b8 // indirect
+	golang.org/x/net v0.0.0-20211205041911-012df41ee64c // indirect
 )
 
 // Replace dependency modules with local developing copy
