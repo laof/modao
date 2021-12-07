@@ -88,7 +88,6 @@ func Create() bool {
 	txt := strings.Join(conf, "\n")
 
 	if write(txt) {
-		fmt.Println("start the server " + port)
 		return true
 	}
 
