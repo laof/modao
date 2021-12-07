@@ -116,6 +116,7 @@ func setup(b bool) {
 func SetProxy(b bool) {
 
 	if b {
+		fmt.Println("")
 		setup(b)
 	}
 
