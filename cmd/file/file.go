@@ -87,11 +87,7 @@ func Create() bool {
 
 	txt := strings.Join(conf, "\n")
 
-	if write(txt) {
-		return true
-	}
-
-	return false
+	return write(txt)
 
 }
 
