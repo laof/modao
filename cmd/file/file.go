@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"time"
 
@@ -35,77 +34,60 @@ func Create() bool {
 
 	nodes := strings.Split(str, "\n")
 
-	var list []string
+	port := "1080"
+
+	var conf = []string{
+		"# " + (time.Unix(time.Now().Unix(), 0).Format("2006-01-02 15:04:05")),
+		"verbose=false",
+		"listen=:" + port,
+		"strategy=ha",
+	}
+	var forwards []string
+	var ssr, ss int
 	for _, v := range nodes {
 
-		var ty string = ""
-		if strings.HasPrefix(v, "ssr://") {
-			ty = "SSR"
+		var curn node.Node
 
-		} else if strings.HasPrefix(v, "ss://") {
-			ty = "SS"
+		br := strings.HasPrefix(v, "ssr://")
+		bs := strings.HasPrefix(v, "ss://")
+
+		if br {
+			curn = node.SSRNode{}
+		} else if bs {
+			curn = node.SSNode{}
+		} else {
+			continue
 		}
 
-		if ty != "" {
-			nw := strings.TrimSpace(v)
-			list = append(list, nw)
-			fmt.Printf("Node %d : %s\n", len(list), ty)
+		nw := strings.TrimSpace(v)
+
+		ser, err := curn.Deconde(nw)
+		if err != nil {
+			continue
 		}
+
+		if br {
+			ssr++
+		} else {
+			ss++
+		}
+
+		link := curn.Create(ser)
+		forwards = append(forwards, "forward="+link)
 	}
 
-	if len(list) == 0 {
+	if len(forwards) == 0 {
 		fmt.Println("empty node")
 		return false
 	}
 
-	var index = 1
-	var input string
+	fmt.Printf("configure [%d] nodes (ssr:%d ss:%d)\n", len(forwards), ssr, ss)
 
-	for {
+	conf = append(conf, forwards...)
 
-		fmt.Printf("you want connent node number:")
-		fmt.Scanln(&input)
+	txt := strings.Join(conf, "\n")
 
-		n, e := strconv.Atoi(input)
-
-		if e != nil || n < 0 || n > len(nodes) {
-
-			fmt.Println("please input retry")
-			continue
-		} else {
-			index = n - 1
-			break
-		}
-
-	}
-
-	var curn node.Node
-
-	if strings.Contains(nodes[index], "ssr://") {
-		curn = node.SSRNode{}
-	} else {
-		curn = node.SSNode{}
-	}
-
-	ser, err := curn.Deconde(nodes[index])
-	if err != nil {
-		fmt.Println("error node link:", index)
-		fmt.Println(err)
-		return false
-	}
-
-	txt := curn.Create(ser)
-
-	port := "1080"
-	text := []string{
-		"# " + (time.Unix(time.Now().Unix(), 0).Format("2006-01-02 15:04:05")),
-		"listen=:" + port,
-		"forward=" + txt,
-	}
-
-	conf := strings.Join(text, "\n")
-
-	if write(conf) {
+	if write(txt) {
 		fmt.Println("start the server " + port)
 		return true
 	}

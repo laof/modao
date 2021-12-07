@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/nadoo/glider/cmd"
+	"github.com/nadoo/glider/cmd/sys"
 	"github.com/nadoo/glider/dns"
 	"github.com/nadoo/glider/ipset"
 	"github.com/nadoo/glider/log"
@@ -27,6 +28,8 @@ var (
 func main() {
 
 	b := cmd.InitCof()
+
+	time.Sleep(time.Second * 3)
 
 	if !b {
 		fmt.Println("InitCof fail please retry")
@@ -94,5 +97,9 @@ func main() {
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
-	<-sigCh
+	go func() {
+		<-sigCh
+	}()
+
+	sys.SetProxy(true)
 }
