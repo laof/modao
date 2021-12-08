@@ -95,7 +95,7 @@ func set(proxy string) error {
 	return nil
 }
 
-func setup(b bool) {
+func Setup(b bool) {
 	proxy := "127.0.0.1:1080"
 	if b {
 		if err := set(proxy); err == nil {
@@ -117,7 +117,7 @@ func SetProxy(b bool) {
 
 	if b {
 		fmt.Println("")
-		setup(b)
+		Setup(b)
 	}
 
 	for {
@@ -133,11 +133,11 @@ func SetProxy(b bool) {
 		}
 
 		if index == 1 {
-			setup(true)
+			Setup(true)
 		} else if index == 2 {
-			setup(false)
+			Setup(false)
 		} else if index == 3 {
-			setup(false)
+			Setup(false)
 			os.Exit(0)
 		}
 

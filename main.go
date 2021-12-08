@@ -26,7 +26,7 @@ var (
 )
 
 func main() {
-
+	sys.Setup(false)
 	b := cmd.InitCof()
 
 	time.Sleep(time.Second * 3)
