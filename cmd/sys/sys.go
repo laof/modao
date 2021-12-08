@@ -137,6 +137,7 @@ func SetProxy(b bool) {
 		} else if index == 2 {
 			setup(false)
 		} else if index == 3 {
+			setup(false)
 			os.Exit(0)
 		}
 
