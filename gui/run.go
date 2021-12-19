@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/lxn/walk"
@@ -20,13 +21,17 @@ var MinW *walk.MainWindow
 var StartButton *walk.PushButton
 var StopButton *walk.PushButton
 var ExitButton *walk.PushButton
-var AssignedNodes *walk.Label
 var AssignedTime *walk.Label
+var AssignedNodes *walk.LineEdit
 var ALog *walk.Label
 
 func Run() {
 
 	modao, e := walk.NewIconFromImage(ModaoIcon())
+
+	if e != nil {
+		fmt.Println("..")
+	}
 
 	var time, nodes string
 	if file.ConfiInfo != "" {
@@ -42,7 +47,7 @@ func Run() {
 	}
 	mw := MainWindow{
 		Title:    "Modao",
-		Size:     Size{400, 260},
+		Size:     Size{380, 240},
 		Font:     Font{PointSize: 11},
 		Layout:   VBox{},
 		Icon:     modao,
@@ -58,8 +63,7 @@ func Run() {
 						Action{
 							Text: "update",
 							OnTriggered: func() {
-								AssignedNodes.SetText("")
-								AssignedTime.SetText("节点更新中，请等待...")
+								AssignedTime.SetText("更新中，请等待...")
 								file.UpdateNodes()
 								AssignedTime.SetText("更新完成，请重启")
 							},
@@ -83,12 +87,12 @@ func Run() {
 			Composite{
 				Layout: VBox{},
 				Children: []Widget{
-					Label{AssignTo: &AssignedNodes, Text: nodes},
 					Label{AssignTo: &AssignedTime, Text: time},
+					LineEdit{AssignTo: &AssignedNodes, Text: nodes, MinSize: Size{120, 80}, ReadOnly: true},
 				},
 			},
 			Composite{
-				Layout: Grid{Columns: 3, Margins: Margins{Top: 5}, Alignment: AlignHNearVFar, MarginsZero: true, SpacingZero: true},
+				Layout: Grid{Columns: 3, Alignment: AlignHNearVFar},
 				Children: []Widget{
 					PushButton{
 						Text:     start,
