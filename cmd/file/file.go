@@ -1,7 +1,9 @@
 package file
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -11,6 +13,8 @@ import (
 	"github.com/laof/request"
 	"github.com/nadoo/glider/cmd/node"
 )
+
+var ConfiInfo = ""
 
 func getDirectory() string {
 	//返回绝对路径  filepath.Dir(os.Args[0])去除最后一个元素的路径
@@ -23,7 +27,7 @@ func getDirectory() string {
 	return strings.Replace(dir, "\\", "/", -1)
 }
 
-func Create() bool {
+func UpdateNodes() bool {
 
 	str := request.Request()
 
@@ -37,9 +41,10 @@ func Create() bool {
 	port := "1080"
 
 	var conf = []string{
-		"# " + (time.Unix(time.Now().Unix(), 0).Format("2006-01-02 15:04:05")),
-		"verbose=false",
+		"# marker:" + (time.Unix(time.Now().Unix(), 0).Format("2006-01-02 15:04:05")),
+		"verbose=true",
 		"listen=:" + port,
+		"include=office.list",
 		"strategy=ha",
 	}
 	var forwards []string
@@ -81,7 +86,9 @@ func Create() bool {
 		return false
 	}
 
-	fmt.Printf("configure [%d] nodes (ssr:%d ss:%d)\n", len(forwards), ssr, ss)
+	test := fmt.Sprintf(",configure [%d] nodes (ssr:%d ss:%d)\n", len(forwards), ssr, ss)
+
+	conf[0] = conf[0] + test
 
 	conf = append(conf, forwards...)
 
@@ -89,6 +96,28 @@ func Create() bool {
 
 	return write(txt)
 
+}
+
+func readLine(fileName string, handler func(string)) error {
+	f, err := os.Open(fileName)
+	if err != nil {
+		return err
+	}
+	buf := bufio.NewReader(f)
+	line, err := buf.ReadString('\n')
+	line = strings.TrimSpace(line)
+	handler(line)
+	if err != nil {
+		if err == io.EOF {
+			return nil
+		}
+		return err
+	}
+	return nil
+}
+
+func Print(line string) {
+	fmt.Println(line)
 }
 
 func init() {
@@ -111,6 +140,14 @@ func create() string {
 		}
 
 		file.WriteString(strings.Join(temp, "\n"))
+	} else {
+		readLine(finame, func(s string) {
+
+			if strings.HasPrefix(s, "# marker:") && strings.Contains(s, ",") {
+				ConfiInfo = strings.Replace(s, "# marker:", "", 1)
+			}
+
+		})
 	}
 
 	return finame

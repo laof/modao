@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net"
 	"os"
 	"os/signal"
@@ -10,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/nadoo/glider/cmd"
 	"github.com/nadoo/glider/cmd/sys"
 	"github.com/nadoo/glider/dns"
+	"github.com/nadoo/glider/gui"
 	"github.com/nadoo/glider/ipset"
 	"github.com/nadoo/glider/log"
 	"github.com/nadoo/glider/proxy"
@@ -26,15 +25,8 @@ var (
 )
 
 func main() {
-	sys.Setup(false)
-	b := cmd.InitCof()
 
-	time.Sleep(time.Second * 3)
-
-	if !b {
-		fmt.Println("InitCof fail please retry")
-		return
-	}
+	sys.SetProxy(0)
 
 	// global rule proxy
 	pxy := rule.NewProxy(config.Forwards, &config.Strategy, config.rules)
@@ -97,9 +89,11 @@ func main() {
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+
 	go func() {
 		<-sigCh
 	}()
 
-	sys.SetProxy(true)
+	gui.Run()
+
 }

@@ -3,7 +3,6 @@ package sys
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"syscall"
 	"unsafe"
 )
@@ -95,52 +94,35 @@ func set(proxy string) error {
 	return nil
 }
 
-func Setup(b bool) {
+func setup(b bool) {
 	proxy := "127.0.0.1:1080"
 	if b {
 		if err := set(proxy); err == nil {
 			fmt.Println("开启代理成功!")
 		} else {
-			fmt.Println("开启代理失败 (+﹏+) ")
+			fmt.Println("开启代理失败 (++) ")
 		}
 	} else {
 		if err := set(""); err == nil {
 			fmt.Println("关闭代理成功!")
 		} else {
-			fmt.Println("关闭代理失败 (+﹏+)")
+			fmt.Println("关闭代理失败 (++)")
 		}
 
 	}
 }
 
-func SetProxy(b bool) {
+func SetProxy(index int) {
 
-	if b {
-		fmt.Println("")
-		Setup(b)
-	}
+	fmt.Print("1开启  0关闭  -1关闭并退出")
 
-	for {
-		var ok string
-		fmt.Print("1开启  2关闭  3关闭并退出 =>")
-		//当程序只是到fmt.Scanln(&name)程序会停止执行等待用户输入
-		fmt.Scanln(&ok)
-
-		index, err := strconv.Atoi(ok)
-
-		if err != nil {
-			continue
-		}
-
-		if index == 1 {
-			Setup(true)
-		} else if index == 2 {
-			Setup(false)
-		} else if index == 3 {
-			Setup(false)
-			os.Exit(0)
-		}
-
+	if index == 1 {
+		setup(true)
+	} else if index == 0 {
+		setup(false)
+	} else if index == -1 {
+		setup(false)
+		os.Exit(0)
 	}
 
 }
