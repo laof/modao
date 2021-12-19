@@ -44,7 +44,7 @@ func UpdateNodes() bool {
 		"# marker:" + (time.Unix(time.Now().Unix(), 0).Format("2006-01-02 15:04:05")),
 		// "verbose=false",
 		"listen=:" + port,
-		"include=office.list",
+		// "include=office.list",
 		"strategy=ha",
 	}
 	var forwards []string
