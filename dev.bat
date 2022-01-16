@@ -1,2 +1,2 @@
-go build
-glider.exe
+go build -o modao.exe
+modao.exe

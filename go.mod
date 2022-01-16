@@ -19,6 +19,7 @@ require (
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
+	github.com/akavel/rsrc v0.10.2 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/chromedp/cdproto v0.0.0-20211130100048-e5358edf9020 // indirect
 	github.com/chromedp/chromedp v0.7.6 // indirect

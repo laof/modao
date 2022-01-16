@@ -125,7 +125,7 @@ func init() {
 }
 
 func create() string {
-	glider := filepath.Join(getDirectory(), "glider.conf")
+	glider := filepath.Join(getDirectory(), "modao.conf")
 
 	finame := filepath.FromSlash(glider)
 	_, er := os.Stat(finame)

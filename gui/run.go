@@ -46,7 +46,7 @@ func Run() {
 		return
 	}
 	mw := MainWindow{
-		Title:    "Modao",
+		Title:    "modao",
 		Size:     Size{380, 240},
 		Font:     Font{PointSize: 11},
 		Layout:   VBox{},
