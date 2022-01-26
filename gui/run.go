@@ -12,9 +12,10 @@ import (
 )
 
 const (
-	start = "Start"
-	stop  = "Stop"
-	exit  = "Exit"
+	start   = "Start"
+	stop    = "Stop"
+	exit    = "Exit"
+	version = "v1.0.2"
 )
 
 var MinW *walk.MainWindow
@@ -71,12 +72,18 @@ func Run() {
 					},
 				},
 				Menu{
-					Text: "version",
+					Text: "help",
 					Items: []MenuItem{
 						Action{
 							Text: "about",
 							OnTriggered: func() {
-								Popup2(MinW, "v1.0.1")
+								Popup(MinW, version)
+							},
+						},
+						Action{
+							Text: "update",
+							OnTriggered: func() {
+								Popup(MinW, version)
 							},
 						},
 					},

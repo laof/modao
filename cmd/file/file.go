@@ -36,7 +36,11 @@ func UpdateNodes() bool {
 		return false
 	}
 
+	fmt.Println(str)
+
 	nodes := strings.Split(str, "\n")
+
+	fmt.Println(len(nodes), "？？？")
 
 	port := "1080"
 

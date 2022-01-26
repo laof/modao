@@ -25,23 +25,34 @@ func param(s string) (obj map[string]string) {
 		return
 	}
 	m, _ := url.ParseQuery(u.RawQuery)
-	obfsparam, e := base64.RawURLEncoding.DecodeString(m["obfsparam"][0])
-	if e != nil {
-		return
+
+	obfsparam, remarks, group := m["obfsparam"], m["remarks"], m["group"]
+
+	if len(obfsparam) > 0 {
+		otxt, e := base64.RawURLEncoding.DecodeString(obfsparam[0])
+		if e != nil {
+			return
+		}
+
+		obj["obfsparam"] = string(otxt)
 	}
 
-	obj["obfsparam"] = string(obfsparam)
+	if len(remarks) > 0 {
+		rtxt, e := base64.RawURLEncoding.DecodeString(remarks[0])
+		if e != nil {
+			return
+		}
+		obj["remarks"] = string(rtxt)
+	}
 
-	rmk, e := base64.RawURLEncoding.DecodeString(m["remarks"][0])
-	if e != nil {
-		return
+	if len(group) > 0 {
+		gtxt, e := base64.RawURLEncoding.DecodeString(group[0])
+		if e != nil {
+			return
+		}
+		obj["group"] = string(gtxt)
 	}
-	obj["remarks"] = string(rmk)
-	group, e := base64.RawURLEncoding.DecodeString(m["group"][0])
-	if e != nil {
-		return
-	}
-	obj["group"] = string(group)
+
 	return
 
 }
