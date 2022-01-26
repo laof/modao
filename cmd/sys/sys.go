@@ -3,6 +3,7 @@ package sys
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"syscall"
 	"unsafe"
 )
@@ -125,4 +126,11 @@ func SetProxy(index int) {
 		os.Exit(0)
 	}
 
+}
+
+func DownloadZip() {
+	// 无GUI调用
+	cmd := exec.Command(`cmd`, `/c`, `start`, `https://laof.github.io/files/modao.zip`)
+	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
+	cmd.Start()
 }

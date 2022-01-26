@@ -1,7 +1,10 @@
 package gui
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strings"
 
 	"github.com/lxn/walk"
@@ -25,6 +28,10 @@ var ExitButton *walk.PushButton
 var AssignedTime *walk.Label
 var AssignedNodes *walk.LineEdit
 var ALog *walk.Label
+
+type versionJson struct {
+	Modao string `json:"modao"`
+}
 
 func Run() {
 
@@ -83,7 +90,29 @@ func Run() {
 						Action{
 							Text: "update",
 							OnTriggered: func() {
-								Popup(MinW, version)
+								res, err := http.Get("https://laof.github.io/assets/version.json")
+
+								if err != nil {
+									Popup(MinW, "network bad")
+									return
+								}
+								defer res.Body.Close()
+								txt, rerr := ioutil.ReadAll(res.Body)
+
+								if rerr != nil {
+									Popup(MinW, "获取版本信息失败")
+									return
+								}
+
+								data := &versionJson{}
+								json.Unmarshal(txt, data)
+
+								if data.Modao == version {
+									Popup(MinW, "亲，"+data.Modao+" 已是最新版本，无需更新")
+								} else {
+									sys.DownloadZip()
+								}
+
 							},
 						},
 					},
