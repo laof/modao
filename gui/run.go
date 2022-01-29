@@ -18,7 +18,7 @@ const (
 	start   = "Start"
 	stop    = "Stop"
 	exit    = "Exit"
-	version = "v1.0.2"
+	version = "v1.0.3"
 )
 
 var MinW *walk.MainWindow
@@ -55,7 +55,7 @@ func Run() {
 	}
 	mw := MainWindow{
 		Title:    "modao",
-		Size:     Size{380, 240},
+		Size:     Size{410, 240},
 		Font:     Font{PointSize: 11},
 		Layout:   VBox{},
 		Icon:     modao,
@@ -84,7 +84,8 @@ func Run() {
 						Action{
 							Text: "about",
 							OnTriggered: func() {
-								Popup(MinW, version)
+								str := "建议安装Chorm浏览器\n"
+								Popup(MinW, str+version)
 							},
 						},
 						Action{
@@ -124,7 +125,7 @@ func Run() {
 				Layout: VBox{},
 				Children: []Widget{
 					Label{AssignTo: &AssignedTime, Text: time},
-					LineEdit{AssignTo: &AssignedNodes, Text: nodes, MinSize: Size{120, 80}, ReadOnly: true},
+					LineEdit{AssignTo: &AssignedNodes, Text: nodes, MinSize: Size{10, 10}, ReadOnly: true},
 				},
 			},
 			Composite{
@@ -172,10 +173,15 @@ func Run() {
 	MinW.SetXPixels((ww - width) / 2)
 	MinW.SetYPixels((wh - height) / 2)
 
+	mh := MinW.Handle()
+
+	hMenu := win.GetSystemMenu(mh, false)
+	win.RemoveMenu(hMenu, win.SC_CLOSE, win.MF_BYCOMMAND)
+
+	// HIDE: CLOSE AND RESIZE
+	currStyle := win.GetWindowLong(mh, win.GWL_STYLE)
+	win.SetWindowLong(mh, win.GWL_STYLE, currStyle&^win.WS_MAXIMIZEBOX&^win.WS_SIZEBOX)
+
 	MinW.Run()
-
-}
-
-func update() {
 
 }

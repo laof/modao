@@ -40,8 +40,6 @@ func UpdateNodes() bool {
 
 	nodes := strings.Split(str, "\n")
 
-	fmt.Println(len(nodes), "？？？")
-
 	port := "1080"
 
 	var conf = []string{
