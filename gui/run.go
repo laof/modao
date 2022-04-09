@@ -91,7 +91,7 @@ func Run() {
 						Action{
 							Text: "update",
 							OnTriggered: func() {
-								res, err := http.Get("https://laof.github.io/assets/version.json")
+								res, err := http.Get("https://raw.githubusercontent.com/laof/glider/master/version.json")
 
 								if err != nil {
 									Popup(MinW, "network bad")
@@ -111,7 +111,7 @@ func Run() {
 								if data.Modao == version {
 									Popup(MinW, "亲，"+data.Modao+" 已是最新版本，无需更新")
 								} else {
-									sys.DownloadZip()
+									sys.Openreleases()
 								}
 
 							},

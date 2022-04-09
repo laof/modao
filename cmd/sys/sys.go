@@ -128,9 +128,9 @@ func SetProxy(index int) {
 
 }
 
-func DownloadZip() {
+func Openreleases() {
 	// 无GUI调用
-	cmd := exec.Command(`cmd`, `/c`, `start`, `https://laof.github.io/files/modao.zip`)
+	cmd := exec.Command(`cmd`, `/c`, `start`, `https://github.com/laof/glider/releases`)
 	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 	cmd.Start()
 }
