@@ -18,7 +18,7 @@ const (
 	start   = "Start"
 	stop    = "Stop"
 	exit    = "Exit"
-	version = "v1.0.3"
+	version = "v1.0.5"
 )
 
 var MinW *walk.MainWindow
