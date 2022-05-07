@@ -35,4 +35,5 @@ config/rules.d/*.list
 
 glider
 /bak/
+/build
 /rules.d/
