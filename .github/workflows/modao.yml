@@ -20,7 +20,7 @@ jobs:
         go-version: 1.18
 
     - name: Build
-      run: go build -ldflags="-s -w" -o ./build/modao.exe cmd/main.go
+      run: go build -ldflags="-H windowsgui -w -s"  -o ./build/modao.exe
 
     - name: Run UPX
       uses: crazy-max/ghaction-upx@v1
